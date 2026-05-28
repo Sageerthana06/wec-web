@@ -225,124 +225,79 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. Testimonials Section */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center flex flex-col gap-4 mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Client Testimonials</h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-            Don't just take our word for it—read reviews from global founders and company managers.
-          </p>
-        </div>
+    </GlassCard>
+          }
+        </div >
+      </section >
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              name: 'Sarah Jenkins',
-              role: 'CTO, FinFlow Labs',
-              quote: 'World Entrepreneurs Company handled our export shipment seamlessly. Professional, reliable, and incredibly fast communication throughout the entire process.',
-              rating: 5,
-            },
-            {
-              name: 'David Carter',
-              role: 'Founder, EcoSphere',
-              quote: 'Their UI/UX design is state of the art. The glassmorphism dark theme they designed perfectly aligns with our high-tech branding.',
-              rating: 5,
-            },
-            {
-              name: 'Amara Okafor',
-              role: 'VP Product, SkillGrid',
-              quote: 'Excellent post-launch customer support. They set up our Vercel hosting, configured database automated backups, and handle all patches.',
-              rating: 5,
-            },
-          ].map((item, idx) => (
-            <GlassCard key={idx} className="flex flex-col justify-between gap-6" hover={false}>
-              <p className="text-sm sm:text-base italic text-slate-600 dark:text-slate-300 leading-relaxed">
-                "{item.quote}"
-              </p>
-              <div className="flex items-center justify-between mt-4">
-                <div>
-                  <h4 className="font-bold text-sm sm:text-base text-slate-800 dark:text-white">{item.name}</h4>
-                  <p className="text-xs text-slate-500">{item.role}</p>
-                </div>
-                <div className="flex gap-0.5 text-amber-400">
-                  {[...Array(item.rating)].map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
-                  ))}
-                </div>
+  {/* 6. FAQ Section */ }
+  < section className = "py-16 bg-slate-100/50 dark:bg-darkBg-darker/30 transition-colors" >
+    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="text-center flex flex-col gap-4 mb-12">
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Frequently Asked Questions</h2>
+        <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
+          Find instant answers to common questions about our technical capabilities and timeline delivery.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-4">
+        {faqs.map((faq, idx) => {
+          const isOpen = !!faqOpen[idx];
+          return (
+            <div
+              key={idx}
+              className="glass-panel rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 transition-all duration-350"
+            >
+              <button
+                onClick={() => toggleFaq(idx)}
+                className="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-base sm:text-lg hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+              >
+                <span>{faq.q}</span>
+                {isOpen ? <Minus size={18} /> : <Plus size={18} />}
+              </button>
+              <div
+                className={`transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-40 border-t border-slate-200 dark:border-slate-800/80' : 'max-h-0'
+                  }`}
+              >
+                <p className="p-6 text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed">
+                  {faq.a}
+                </p>
               </div>
-            </GlassCard>
-          ))}
-        </div>
-      </section>
-
-      {/* 6. FAQ Section */}
-      <section className="py-16 bg-slate-100/50 dark:bg-darkBg-darker/30 transition-colors">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center flex flex-col gap-4 mb-12">
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Frequently Asked Questions</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
-              Find instant answers to common questions about our technical capabilities and timeline delivery.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = !!faqOpen[idx];
-              return (
-                <div
-                  key={idx}
-                  className="glass-panel rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 transition-all duration-350"
-                >
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-base sm:text-lg hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-                  >
-                    <span>{faq.q}</span>
-                    {isOpen ? <Minus size={18} /> : <Plus size={18} />}
-                  </button>
-                  <div
-                    className={`transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-40 border-t border-slate-200 dark:border-slate-800/80' : 'max-h-0'
-                      }`}
-                  >
-                    <p className="p-6 text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed">
-                      {faq.a}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Call To Action Banner */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary-600 to-sky-600 p-8 sm:p-12 text-center text-white shadow-xl">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-400/20 via-transparent to-transparent pointer-events-none" />
-          <div className="relative z-10 flex flex-col gap-6 max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to launch your digital platform?</h2>
-            <p className="text-base text-sky-100 max-w-lg mx-auto leading-relaxed">
-              Connect with our digital architecture consultants today to scope your software specifications and receive a free technical estimate.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-              <Link
-                to="/contact"
-                className="px-8 py-3.5 rounded-xl font-bold bg-white text-primary-600 hover:bg-slate-50 shadow-md hover:scale-105 transition-all duration-300"
-              >
-                Get In Touch
-              </Link>
-              <Link
-                to="/about"
-                className="px-8 py-3.5 rounded-xl font-bold border border-white/20 hover:bg-white/10 transition-colors"
-              >
-                Learn More
-              </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
+          );
+        })}
+      </div>
     </div>
+      </section >
+
+  {/* 7. Call To Action Banner */ }
+  < section className = "py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12" >
+    <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary-600 to-sky-600 p-8 sm:p-12 text-center text-white shadow-xl">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-400/20 via-transparent to-transparent pointer-events-none" />
+      <div className="relative z-10 flex flex-col gap-6 max-w-2xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to launch your digital platform?</h2>
+        <p className="text-base text-sky-100 max-w-lg mx-auto leading-relaxed">
+          Connect with our digital architecture consultants today to scope your software specifications and receive a free technical estimate.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
+          <Link
+            to="/contact"
+            className="px-8 py-3.5 rounded-xl font-bold bg-white text-primary-600 hover:bg-slate-50 shadow-md hover:scale-105 transition-all duration-300"
+          >
+            Get In Touch
+          </Link>
+          <Link
+            to="/about"
+            className="px-8 py-3.5 rounded-xl font-bold border border-white/20 hover:bg-white/10 transition-colors"
+          >
+            Learn More
+          </Link>
+        </div>
+      </div>
+    </div>
+      </section >
+
+    </div >
   );
 };
 
