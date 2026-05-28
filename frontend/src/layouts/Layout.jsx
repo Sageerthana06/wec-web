@@ -139,19 +139,14 @@ const Layout = ({ children }) => {
                   className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors duration-300"
                 >
                   <User size={16} />
-                  <span>System</span>
+                  <span> WEC </span>
                 </Link>
               )}
             </div>
 
             {/* Mobile Hamburger menu trigger */}
             <div className="flex items-center gap-2 md:hidden">
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors mr-1"
-              >
-                {darkMode ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-600" />}
-              </button>
+
 
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
