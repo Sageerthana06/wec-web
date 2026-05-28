@@ -31,7 +31,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS setup
-app.use(cors());
+// CORS setup
+const corsOptions = {
+  origin: 'https://wec-web-frontend.vercel.app', // 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // Serve static upload directory
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
