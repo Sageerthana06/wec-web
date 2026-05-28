@@ -226,49 +226,11 @@ const Home = () => {
       </section>
 
     </GlassCard>
-          }
+          
         </div >
       </section >
 
-  {/* 6. FAQ Section */ }
-  < section className = "py-16 bg-slate-100/50 dark:bg-darkBg-darker/30 transition-colors" >
-    <div className="max-w-4xl mx-auto px-4 sm:px-6">
-      <div className="text-center flex flex-col gap-4 mb-12">
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Frequently Asked Questions</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
-          Find instant answers to common questions about our technical capabilities and timeline delivery.
-        </p>
-      </div>
 
-      <div className="flex flex-col gap-4">
-        {faqs.map((faq, idx) => {
-          const isOpen = !!faqOpen[idx];
-          return (
-            <div
-              key={idx}
-              className="glass-panel rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 transition-all duration-350"
-            >
-              <button
-                onClick={() => toggleFaq(idx)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-base sm:text-lg hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
-              >
-                <span>{faq.q}</span>
-                {isOpen ? <Minus size={18} /> : <Plus size={18} />}
-              </button>
-              <div
-                className={`transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-40 border-t border-slate-200 dark:border-slate-800/80' : 'max-h-0'
-                  }`}
-              >
-                <p className="p-6 text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed">
-                  {faq.a}
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-      </section >
 
   {/* 7. Call To Action Banner */ }
   < section className = "py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12" >
