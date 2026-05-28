@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://wec-web-backend.vercel.app/api';
 
 // Fallback logic for media paths
 export const getMediaUrl = (path) => {
