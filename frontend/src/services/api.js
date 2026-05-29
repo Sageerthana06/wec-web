@@ -1,162 +1,150 @@
+import axios from "axios";
 
-const API_BASE_URL = 'https://wec-web-backend1.vercel.app/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-// Fallback logic for media paths
 export const getMediaUrl = (path) => {
-  if (!path) return '';
-  if (path.startsWith('http://') || path.startsWith('https://')) {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) {
     return path;
   }
-  return `http://localhost:5000${path}`;
+  return `${API_BASE_URL.replace("/api", "")}${path}`;
 };
 
-// Set token in request headers helper
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-// Raw fetch helpers to avoid axios peer-dependency or versioning conflicts if any
-export const apiFetch = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
-  const headers = {
+const apiInstance = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: false,
+});
+
+apiInstance.interceptors.request.use((config) => {
+  config.headers = {
+    ...(config.headers || {}),
     ...getAuthHeaders(),
-    ...options.headers,
   };
-
-  // Do not set Content-Type if it is a FormData object (for uploads)
-  if (!(options.body instanceof FormData) && !headers['Content-Type']) {
-    headers['Content-Type'] = 'application/json';
+  if (config.data instanceof FormData) {
+    delete config.headers["Content-Type"];
   }
+  return config;
+});
 
-  const response = await fetch(url, {
-    ...options,
+apiInstance.interceptors.response.use(
+  (response) => response.data,
+  (error) => {
+    const message =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(new Error(message));
+  },
+);
+
+export const apiFetch = async (endpoint, options = {}) => {
+  const { method = "GET", data = null, params = null, headers = {} } = options;
+  const response = await apiInstance({
+    url: endpoint,
+    method,
+    data,
+    params,
     headers,
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Something went wrong');
-  }
-
-  return data;
+  return response;
 };
 
-// API Services
 export const authService = {
   login: (username, password) =>
-    apiFetch('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
+    apiFetch("/auth/login", {
+      method: "POST",
+      data: { username, password },
     }),
-  getMe: () =>
-    apiFetch('/auth/me', {
-      method: 'GET',
-    }),
+  getMe: () => apiFetch("/auth/me", { method: "GET" }),
   updatePassword: (currentPassword, newPassword) =>
-    apiFetch('/auth/updatepassword', {
-      method: 'PUT',
-      body: JSON.stringify({ currentPassword, newPassword }),
+    apiFetch("/auth/updatepassword", {
+      method: "PUT",
+      data: { currentPassword, newPassword },
     }),
 };
 
 export const companyService = {
-  getDetails: () =>
-    apiFetch('/company', {
-      method: 'GET',
-    }),
+  getDetails: () => apiFetch("/company", { method: "GET" }),
   updateDetails: (formData) =>
-    apiFetch('/company', {
-      method: 'PUT',
-      body: formData, // FormData containing details and logo file
+    apiFetch("/company", {
+      method: "PUT",
+      data: formData,
     }),
 };
 
 export const servicesService = {
   getAll: (isAdmin = false) =>
-    apiFetch(`/services?status=${isAdmin ? 'all' : 'active'}`, {
-      method: 'GET',
+    apiFetch(`/services?status=${isAdmin ? "all" : "active"}`, {
+      method: "GET",
     }),
   create: (formData) =>
-    apiFetch('/services', {
-      method: 'POST',
-      body: formData,
+    apiFetch("/services", {
+      method: "POST",
+      data: formData,
     }),
   update: (id, formData) =>
     apiFetch(`/services/${id}`, {
-      method: 'PUT',
-      body: formData,
+      method: "PUT",
+      data: formData,
     }),
-  delete: (id) =>
-    apiFetch(`/services/${id}`, {
-      method: 'DELETE',
-    }),
+  delete: (id) => apiFetch(`/services/${id}`, { method: "DELETE" }),
 };
 
 export const productsService = {
   getAll: (params = {}, isAdmin = false) => {
-    const { category, search } = params;
-    let url = `/products?status=${isAdmin ? 'all' : 'active'}`;
-    if (category) url += `&category=${encodeURIComponent(category)}`;
-    if (search) url += `&search=${encodeURIComponent(search)}`;
-    return apiFetch(url, { method: 'GET' });
+    const query = new URLSearchParams({
+      status: isAdmin ? "all" : "active",
+      ...(params.category ? { category: params.category } : {}),
+      ...(params.search ? { search: params.search } : {}),
+    }).toString();
+    return apiFetch(`/products?${query}`, { method: "GET" });
   },
   create: (formData) =>
-    apiFetch('/products', {
-      method: 'POST',
-      body: formData,
+    apiFetch("/products", {
+      method: "POST",
+      data: formData,
     }),
   update: (id, formData) =>
     apiFetch(`/products/${id}`, {
-      method: 'PUT',
-      body: formData,
+      method: "PUT",
+      data: formData,
     }),
-  delete: (id) =>
-    apiFetch(`/products/${id}`, {
-      method: 'DELETE',
-    }),
+  delete: (id) => apiFetch(`/products/${id}`, { method: "DELETE" }),
 };
 
 export const galleryService = {
   getAll: (category) => {
-    let url = '/gallery';
-    if (category) url += `?category=${encodeURIComponent(category)}`;
-    return apiFetch(url, { method: 'GET' });
+    const query = category ? `?category=${encodeURIComponent(category)}` : "";
+    return apiFetch(`/gallery${query}`, { method: "GET" });
   },
   create: (formData) =>
-    apiFetch('/gallery', {
-      method: 'POST',
-      body: formData,
+    apiFetch("/gallery", {
+      method: "POST",
+      data: formData,
     }),
   update: (id, formData) =>
     apiFetch(`/gallery/${id}`, {
-      method: 'PUT',
-      body: formData,
+      method: "PUT",
+      data: formData,
     }),
-  delete: (id) =>
-    apiFetch(`/gallery/${id}`, {
-      method: 'DELETE',
-    }),
+  delete: (id) => apiFetch(`/gallery/${id}`, { method: "DELETE" }),
 };
 
 export const messageService = {
   send: (messageData) =>
-    apiFetch('/messages', {
-      method: 'POST',
-      body: JSON.stringify(messageData),
+    apiFetch("/messages", {
+      method: "POST",
+      data: messageData,
     }),
-  getAll: () =>
-    apiFetch('/messages', {
-      method: 'GET',
-    }),
-  markAsRead: (id, status = 'read') =>
+  getAll: () => apiFetch("/messages", { method: "GET" }),
+  markAsRead: (id, status = "read") =>
     apiFetch(`/messages/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ status }),
+      method: "PUT",
+      data: { status },
     }),
-  delete: (id) =>
-    apiFetch(`/messages/${id}`, {
-      method: 'DELETE',
-    }),
+  delete: (id) => apiFetch(`/messages/${id}`, { method: "DELETE" }),
 };

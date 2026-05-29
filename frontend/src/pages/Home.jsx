@@ -225,38 +225,35 @@ const Home = () => {
         </div>
       </section>
 
-    </GlassCard>
-          
-        </div >
-      </section >
 
 
 
-  {/* 7. Call To Action Banner */ }
-  < section className = "py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12" >
-    <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary-600 to-sky-600 p-8 sm:p-12 text-center text-white shadow-xl">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-400/20 via-transparent to-transparent pointer-events-none" />
-      <div className="relative z-10 flex flex-col gap-6 max-w-2xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to launch your digital platform?</h2>
-        <p className="text-base text-sky-100 max-w-lg mx-auto leading-relaxed">
-          Connect with our digital architecture consultants today to scope your software specifications and receive a free technical estimate.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-          <Link
-            to="/contact"
-            className="px-8 py-3.5 rounded-xl font-bold bg-white text-primary-600 hover:bg-slate-50 shadow-md hover:scale-105 transition-all duration-300"
-          >
-            Get In Touch
-          </Link>
-          <Link
-            to="/about"
-            className="px-8 py-3.5 rounded-xl font-bold border border-white/20 hover:bg-white/10 transition-colors"
-          >
-            Learn More
-          </Link>
+
+      {/* 7. Call To Action Banner */}
+      < section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12" >
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-primary-600 to-sky-600 p-8 sm:p-12 text-center text-white shadow-xl">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-400/20 via-transparent to-transparent pointer-events-none" />
+          <div className="relative z-10 flex flex-col gap-6 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to launch your digital platform?</h2>
+            <p className="text-base text-sky-100 max-w-lg mx-auto leading-relaxed">
+              Connect with our digital architecture consultants today to scope your software specifications and receive a free technical estimate.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
+              <Link
+                to="/contact"
+                className="px-8 py-3.5 rounded-xl font-bold bg-white text-primary-600 hover:bg-slate-50 shadow-md hover:scale-105 transition-all duration-300"
+              >
+                Get In Touch
+              </Link>
+              <Link
+                to="/about"
+                className="px-8 py-3.5 rounded-xl font-bold border border-white/20 hover:bg-white/10 transition-colors"
+              >
+                Learn More
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
       </section >
 
     </div >
